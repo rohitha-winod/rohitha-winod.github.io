@@ -1,6 +1,15 @@
 /* Rohitha & Winod | Engagement invitation
    Mobile first. Paper cut look: flat colour layers, scalloped cut edges, soft stacked shadows. */
 
+/* Losta Masta Medium, self hosted, subset to basic Latin (assets/fonts) */
+@font-face {
+  font-family: "Losta Masta";
+  src: url("assets/fonts/LostaMasta-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --cream: #fbf3e4;
   --paper: #f5e8d0;
@@ -17,6 +26,7 @@
 
   --serif: "Cormorant Garamond", "Cormorant", Georgia, serif;
   --script: "Pinyon Script", "Snell Roundhand", cursive;
+  --display: "Losta Masta", "Cormorant Garamond", Georgia, serif;
   --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
 
   /* Type scale, fluid between 360px and 1280px wide */
@@ -26,7 +36,7 @@
   --t-h3: clamp(1.9rem, 1.5rem + 1.9vw, 2.9rem);
   --t-h2: clamp(1.75rem, 1.35rem + 2vw, 3.1rem);
   --t-h1: clamp(2.35rem, 1.6rem + 3.6vw, 4.4rem);
-  --t-name: clamp(2.6rem, 1.6rem + 5.2vw, 5.8rem);
+  --t-name: clamp(1.8rem, 8.4vw, 3.6rem); /* Losta Masta is wide: "Rohitha Srirangam" fills about 87% of the column */
 
   --cut-shadow: drop-shadow(0 2px 1px rgba(70, 40, 15, .18)) drop-shadow(0 10px 14px rgba(70, 40, 15, .16));
   --scallop: 30px;
@@ -261,9 +271,11 @@ a { color: inherit; }
 
 .names { margin-top: clamp(10px, 3vw, 22px); }
 .name {
-  font-family: var(--script);
+  font-family: var(--display);
+  font-weight: 500;
   font-size: var(--t-name);
-  line-height: 1.18;
+  line-height: 1.12;
+  letter-spacing: -.005em;
   white-space: nowrap;
   color: var(--green);
   padding-inline: .15em;
@@ -516,6 +528,7 @@ a { color: inherit; }
   .invite__text { margin: 0; }
   .float-lotus--a { left: 1%; bottom: 10%; }
   .float-lotus--b { right: 2%; top: 12%; }
+  .name { font-size: clamp(3rem, 4.4vw, 3.7rem); } /* the text column is narrower beside the arch */
 }
 
 @media (prefers-reduced-motion: reduce) {

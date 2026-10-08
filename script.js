@@ -104,7 +104,7 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
   };
   const play = () => {
     audio.volume = 0;
-    return audio.play().then(() => { show(true); ramp(VOLUME, 2500); }).catch(() => show(false));
+    return audio.play().then(() => { show(true); ramp(VOLUME, 4000); }).catch(() => show(false));
   };
   const pause = () => { show(false); ramp(0, 600, () => audio.pause()); };
 
