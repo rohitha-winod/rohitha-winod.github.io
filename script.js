@@ -38,25 +38,49 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
   setInterval(tick, 1000);
 })();
 
-/* Add to calendar (.ics) */
+/* Add to calendar
+   iPhone / iPad: the hosted .ics file, which Safari opens in the native "Add to Calendar" sheet.
+   Android: Google Calendar with the event filled in, saved to the phone's Google account.
+   Computers: a small menu with both. Without JavaScript the button is a plain .ics link. */
 (function calendar() {
-  const link = document.getElementById("add-cal");
-  if (!link) return;
+  const btn = document.getElementById("add-cal");
+  const menu = document.getElementById("cal-menu");
+  if (!btn) return;
   const fmt = (d) => d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
   const start = new Date(EVENT.start);
   const end = new Date(start.getTime() + EVENT.hours * 3600 * 1000);
-  const ics = [
-    "BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Rohitha Winod Engagement//EN", "BEGIN:VEVENT",
-    "UID:rohitha-winod-engagement-20261025@invite",
-    "DTSTAMP:" + fmt(new Date()),
-    "DTSTART:" + fmt(start),
-    "DTEND:" + fmt(end),
-    "SUMMARY:" + EVENT.title,
-    "LOCATION:" + EVENT.place.replace(/,/g, "\\,"),
-    "DESCRIPTION:Muhurtham at 11:19 AM",
-    "END:VEVENT", "END:VCALENDAR",
-  ].join("\r\n");
-  link.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+  const google = "https://calendar.google.com/calendar/render?" + new URLSearchParams({
+    action: "TEMPLATE",
+    text: EVENT.title,
+    dates: fmt(start) + "/" + fmt(end),
+    ctz: "Asia/Kolkata",
+    location: EVENT.place,
+    details: "Exchange of Rings of Love ceremony of Rohitha Srirangam & Winod Gali.\nMuhurtham 11:19 AM (IST).\nInvitation: https://rohitha-winod.github.io",
+  });
+  document.getElementById("cal-google").href = google;
+
+  const ua = navigator.userAgent;
+  const ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const android = /Android/i.test(ua);
+
+  if (ios) return; // keep the .ics link
+  if (android) {
+    btn.href = google;
+    btn.target = "_blank";
+    btn.rel = "noopener";
+    return;
+  }
+  /* Computers: open a choice of calendars */
+  btn.setAttribute("aria-haspopup", "true");
+  btn.setAttribute("aria-expanded", "false");
+  const toggle = (open) => {
+    menu.hidden = !open;
+    btn.setAttribute("aria-expanded", String(open));
+  };
+  btn.addEventListener("click", (e) => { e.preventDefault(); toggle(menu.hidden); });
+  menu.addEventListener("click", () => toggle(false));
+  document.addEventListener("click", (e) => { if (!e.target.closest(".cal")) toggle(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") toggle(false); });
 })();
 
 /* Falling petals, fewer and softer on small screens */

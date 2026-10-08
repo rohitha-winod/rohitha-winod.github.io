@@ -197,6 +197,9 @@ a { color: inherit; }
 .hero__hands img {
   height: 100%; width: auto; max-width: min(64vw, 300px);
   object-fit: contain;
+  /* both arms run off the artwork's top and bottom edges, so fade those ends into the paper */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 86%, transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 86%, transparent 100%);
   animation: float 6s ease-in-out infinite alternate;
 }
 
@@ -407,6 +410,23 @@ a { color: inherit; }
 .btn:hover, .btn:focus-visible { translate: 0 -3px; box-shadow: 0 8px 0 rgba(0, 0, 0, .2); }
 .btn:active { translate: 0 1px; box-shadow: 0 2px 0 rgba(0, 0, 0, .2); }
 .btn:focus-visible { outline: 2px solid var(--gold-soft); outline-offset: 4px; }
+
+/* Calendar choice, shown on computers only */
+.cal { position: relative; display: inline-flex; }
+.cal__menu {
+  position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 12px);
+  translate: -50% 0;
+  display: grid; min-width: 220px; padding: 6px;
+  background: var(--cream); border-radius: 16px;
+  box-shadow: 0 0 0 1px var(--gold-soft), 4px 6px 0 var(--gold-soft), 0 14px 30px rgba(30, 5, 10, .35);
+}
+.cal__menu[hidden] { display: none; }
+.cal__menu a {
+  padding: 12px 16px; border-radius: 10px;
+  font-family: var(--sans); font-size: .74rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--maroon); text-decoration: none;
+}
+.cal__menu a:hover, .cal__menu a:focus-visible { background: var(--paper); outline: none; }
 
 /* ---------- 4. CLOSING ---------- */
 .closing {

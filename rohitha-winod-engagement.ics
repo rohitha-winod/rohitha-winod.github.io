@@ -1,0 +1,29 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Rohitha Winod Engagement//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Rohitha & Winod Engagement
+BEGIN:VEVENT
+UID:rohitha-winod-engagement-20261025@rohitha-winod.github.io
+DTSTAMP:20261008T000000Z
+DTSTART:20261025T054900Z
+DTEND:20261025T084900Z
+SUMMARY:Rohitha & Winod | Exchange of Rings Ceremony
+LOCATION:Madhura Banquet Hall\, Manikonda\, Hyderabad
+DESCRIPTION:Exchange of Rings of Love ceremony of Rohitha Srirangam & Winod Gali.\nMuhurtham 11:19 AM (IST).\nInvitation: https://rohitha-winod.github.io
+URL:https://rohitha-winod.github.io
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Rohitha & Winod engagement tomorrow
+TRIGGER:-P1D
+END:VALARM
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Rohitha & Winod engagement in 2 hours
+TRIGGER:-PT2H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

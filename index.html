@@ -19,9 +19,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/hands.webp" type="image/webp">
+  <link rel="preload" as="image" href="assets/hands.webp?v=4" type="image/webp">
   <link rel="preload" as="font" href="assets/fonts/LostaMasta-Medium.woff2?v=3" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -41,7 +41,7 @@
         <span class="line"><span>One Beautiful <em>Beginning</em></span></span>
       </h1>
       <div class="hero__hands" data-speed="-8">
-        <img class="cut" src="assets/hands.webp" width="687" height="900" fetchpriority="high" alt="Two hands meeting, one adorned with mehndi and a ring">
+        <img class="cut" src="assets/hands.webp?v=4" width="644" height="1300" fetchpriority="high" alt="Two hands meeting, one adorned with mehndi and a ring">
       </div>
     </div>
 
@@ -121,7 +121,13 @@
         </div>
 
         <div class="actions" data-reveal>
-          <a class="btn btn--solid" id="add-cal" href="#" download="rohitha-winod-engagement.ics">Add to Calendar</a>
+          <div class="cal">
+            <a class="btn btn--solid" id="add-cal" href="rohitha-winod-engagement.ics">Add to Calendar</a>
+            <div class="cal__menu" id="cal-menu" hidden>
+              <a id="cal-google" href="https://calendar.google.com/calendar/" target="_blank" rel="noopener">Google Calendar</a>
+              <a href="rohitha-winod-engagement.ics" download>Apple or Outlook</a>
+            </div>
+          </div>
           <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Madhura+Banquet+Hall+Manikonda+Hyderabad" target="_blank" rel="noopener">Open in Maps</a>
         </div>
       </div>
@@ -166,6 +172,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=3" defer></script>
+  <script src="script.js?v=4" defer></script>
 </body>
 </html>
