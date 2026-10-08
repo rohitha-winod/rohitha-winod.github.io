@@ -100,12 +100,13 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 })();
 
-/* Background music: fades in on the first tap anywhere (browsers block sound before that),
-   the button toggles it, and a visitor who turns it off is not surprised by it again */
-(function music() {
+/* Background music. Browsers only allow sound after a tap, so it starts from the
+   "Open Invitation" tap on the opening screen (or the first tap anywhere as a fallback).
+   The button toggles it, and a visitor who turns it off is not surprised by it again. */
+const MUSIC = (function music() {
   const audio = document.getElementById("bgm");
   const btn = document.getElementById("music-toggle");
-  if (!audio || !btn) return;
+  if (!audio || !btn) return { play() {}, wanted: () => false };
   const VOLUME = 0.45;
   const store = {
     get() { try { return localStorage.getItem("rw-music"); } catch { return null; } },
@@ -127,25 +128,27 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
     btn.setAttribute("aria-label", on ? "Pause music" : "Play music");
   };
   const play = () => {
+    if (!audio.paused) return Promise.resolve();
     audio.volume = 0;
     return audio.play().then(() => { show(true); ramp(VOLUME, 4000); }).catch(() => show(false));
   };
   const pause = () => { show(false); ramp(0, 600, () => audio.pause()); };
+  const wanted = () => store.get() !== "off";
 
   btn.addEventListener("click", () => {
     if (audio.paused || btn.getAttribute("aria-pressed") === "false") { store.set("on"); play(); }
     else { store.set("off"); pause(); }
   });
 
-  /* First tap anywhere else starts it, unless they turned it off on an earlier visit */
+  /* Fallback: the first tap, click or key press anywhere. On phones only the end of a
+     tap (pointerup / touchend) counts as permission, so listen for those too. */
+  const events = ["pointerup", "touchend", "click", "keydown"];
   const firstTap = (e) => {
-    removeEventListener("pointerdown", firstTap);
-    removeEventListener("keydown", firstTap);
-    if (btn.contains(e.target) || store.get() === "off") return;
+    events.forEach((ev) => removeEventListener(ev, firstTap, true));
+    if (btn.contains(e.target) || !wanted()) return;
     play();
   };
-  addEventListener("pointerdown", firstTap);
-  addEventListener("keydown", firstTap);
+  events.forEach((ev) => addEventListener(ev, firstTap, true));
 
   /* Quiet while the tab is in the background */
   let wasPlaying = false;
@@ -153,6 +156,30 @@ const REDUCE = matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (document.hidden) { wasPlaying = !audio.paused; audio.pause(); }
     else if (wasPlaying) audio.play().catch(() => {});
   });
+
+  return { play, wanted };
+})();
+
+/* Opening screen: one tap opens the invitation and starts the music.
+   GATE.opened resolves when it is gone, so the hero entrance plays after it. */
+const GATE = (function gate() {
+  const el = document.getElementById("gate");
+  const open = document.getElementById("gate-open");
+  let done;
+  const opened = new Promise((r) => (done = r));
+  if (!el || !open) { done(); return { opened }; }
+  document.documentElement.classList.add("gate-lock");
+  open.focus({ preventScroll: true });
+  open.addEventListener("click", () => {
+    if (MUSIC.wanted()) MUSIC.play();
+    document.documentElement.classList.remove("gate-lock");
+    el.classList.add("is-leaving");
+    const finish = () => { el.remove(); done(); };
+    if (REDUCE) finish();
+    else { el.addEventListener("transitionend", finish, { once: true }); setTimeout(finish, 1600); }
+    setTimeout(done, REDUCE ? 0 : 500); // start the hero entrance while the cover lifts
+  }, { once: true });
+  return { opened };
 })();
 
 /* ---------- Motion ---------- */
@@ -165,6 +192,7 @@ window.addEventListener("DOMContentLoaded", () => {
   /* Smooth scrolling */
   if (window.Lenis) {
     const lenis = new Lenis({ duration: 1.2, smoothWheel: true });
+    if (document.documentElement.classList.contains("gate-lock")) { lenis.stop(); GATE.opened.then(() => lenis.start()); }
     lenis.on("scroll", ScrollTrigger.update);
     gsap.ticker.add((t) => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -179,7 +207,8 @@ window.addEventListener("DOMContentLoaded", () => {
   gsap.set("[data-reveal], [data-card]", { autoAlpha: 0 });
 
   /* Hero entrance: the paper layers drop and settle one by one */
-  const intro = gsap.timeline({ defaults: { ease: "power3.out" }, delay: 0.15 });
+  const intro = gsap.timeline({ defaults: { ease: "power3.out" }, delay: 0.15, paused: true });
+  GATE.opened.then(() => intro.play());
   intro
     .from(".toran", { yPercent: -110, duration: 1.3, ease: "back.out(1.1)" })
     .from(".garland", { yPercent: -105, duration: 1.4, stagger: 0.12, ease: "back.out(1.2)" }, "-=1.0")

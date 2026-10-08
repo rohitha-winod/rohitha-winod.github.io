@@ -19,11 +19,28 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/hands.webp?v=4" type="image/webp">
+  <link rel="preload" as="image" href="assets/hands.webp?v=5" type="image/webp">
   <link rel="preload" as="font" href="assets/fonts/LostaMasta-Medium.woff2?v=3" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="styles.css?v=5">
+  <script>document.documentElement.classList.add("js")</script>
 </head>
 <body>
+  <!-- Opening screen: the tap on "Open Invitation" is what lets the music play -->
+  <div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <img class="gate__toran" src="assets/toran.webp" width="1600" height="609" alt="">
+    <div class="gate__inner">
+      <img class="gate__emblem" src="assets/ganesha.webp" width="320" height="319" alt="">
+      <p class="eyebrow">You are invited to the engagement of</p>
+      <h2 class="gate__names" id="gate-title">Rohitha <span>&amp;</span> Winod</h2>
+      <p class="gate__date">25 . 10 . 2026</p>
+      <button class="gate__open" id="gate-open" type="button">Open Invitation</button>
+      <p class="gate__note">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+        Best with sound on
+      </p>
+    </div>
+  </div>
+
   <div class="grain" aria-hidden="true"></div>
   <div class="petals" aria-hidden="true"></div>
 
@@ -41,7 +58,7 @@
         <span class="line"><span>One Beautiful <em>Beginning</em></span></span>
       </h1>
       <div class="hero__hands" data-speed="-8">
-        <img class="cut" src="assets/hands.webp?v=4" width="644" height="1300" fetchpriority="high" alt="Two hands meeting, one adorned with mehndi and a ring">
+        <img src="assets/hands.webp?v=5" width="644" height="1299" fetchpriority="high" alt="Two hands meeting, one adorned with mehndi and a ring">
       </div>
     </div>
 
@@ -163,7 +180,7 @@
   </footer>
 
   <!-- Background music: browsers only allow sound after a tap, so it starts on the first tap or from this button -->
-  <audio id="bgm" src="assets/music.m4a?v=3" loop preload="none"></audio>
+  <audio id="bgm" src="assets/music.m4a?v=3" loop preload="auto"></audio>
   <button class="music" id="music-toggle" type="button" aria-pressed="false" aria-label="Play music">
     <svg class="music__note" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
     <span class="music__bars" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -172,6 +189,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js" defer></script>
-  <script src="script.js?v=4" defer></script>
+  <script src="script.js?v=5" defer></script>
 </body>
 </html>
