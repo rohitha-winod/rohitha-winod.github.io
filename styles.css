@@ -4,7 +4,7 @@
 /* Losta Masta Medium, self hosted, subset to basic Latin (assets/fonts) */
 @font-face {
   font-family: "Losta Masta";
-  src: url("assets/fonts/LostaMasta-Medium.woff2") format("woff2");
+  src: url("assets/fonts/LostaMasta-Medium.woff2?v=3") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -465,8 +465,8 @@ a { color: inherit; }
   text-align: center;
   padding: 44px var(--pad) calc(44px + env(safe-area-inset-bottom));
 }
-.footer__names { font-family: var(--script); font-size: clamp(2.4rem, 1.9rem + 2.4vw, 3.6rem); line-height: 1.2; }
-.footer__names span { font-family: var(--serif); font-style: italic; font-size: .5em; color: var(--gold-soft); }
+.footer__names { font-family: var(--display); font-weight: 500; font-size: clamp(2rem, 1.6rem + 2vw, 3rem); line-height: 1.15; letter-spacing: -.005em; }
+.footer__names span { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: .7em; color: var(--gold-soft); }
 .footer__date { font-family: var(--sans); font-size: .72rem; font-weight: 500; letter-spacing: .4em; color: var(--gold-soft); margin: 8px -.4em 0 0; }
 
 /* ---------- MUSIC TOGGLE ---------- */
